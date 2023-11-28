@@ -8,4 +8,4 @@ Para rodar os projetos, primeiro faça a instalação dos seguintes pré-requisi
  
 Nesse módulo iremos desenvolver uma aplicação completa utilizando React Native com Expo, Context API, Native Base dentre outras tecnologias de mercado. 
 
-O projeto sugerido para desenvolvermos esse módulo será um app de filmes. Neste [link](https://www.npmjs.com/](https://www.figma.com/file/FqMh0apskSZsHr4iuf8HQI/FlixAura-Movie-Streaming-App-UI-(Community)?type=design&node-id=0%3A1&mode=design&t=gkB4xWWi7rf9YqFo-1)https://www.figma.com/file/FqMh0apskSZsHr4iuf8HQI/FlixAura-Movie-Streaming-App-UI-(Community)?type=design&node-id=0%3A1&mode=design&t=gkB4xWWi7rf9YqFo-1) podemos conferir o layout do app que iremos desenvolver.
+O projeto sugerido para desenvolvermos esse módulo será um app de filmes. Neste [link](https://www.figma.com/file/FqMh0apskSZsHr4iuf8HQI/FlixAura-Movie-Streaming-App-UI-(Community)?type=design&node-id=0%3A1&mode=design&t=gkB4xWWi7rf9YqFo-1) podemos conferir o layout do app que iremos desenvolver.
