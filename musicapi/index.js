@@ -43,7 +43,7 @@ app.post("/user/register", (req, res) => {
   return res.send({ message: "user created successfully" });
 });
 
-app.get("/movies", (req, res) => {
+app.get("/albums", (req, res) => {
   let [_, token] = req.headers.authorization.split(" ");
   if (
     token == null ||
