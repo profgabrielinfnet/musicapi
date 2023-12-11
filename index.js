@@ -10,6 +10,8 @@ const internalUser = {
   token: null,
 };
 
+const internalUsers = [];
+
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
@@ -17,37 +19,64 @@ app.get("/", (req, res) => {
 app.post("/user/login", (req, res) => {
   const { username, password } = req.body;
 
+  const internalUser = internalUsers.find((user) => user.username == username);
+
+  if (!internalUser?.username) {
+    return res.status(400).send({
+      message: "User not registered!",
+    });
+  }
+
   if (
-    !internalUser.username ||
-    !(internalUser.username == username && internalUser.password == password)
+    internalUser?.username &&
+    !(internalUser?.username == username && internalUser?.password == password)
   )
     return res.status(401).send({
       message: "username or password invalid!",
     });
 
-  internalUser.token = Math.floor(Math.random() * 20000000);
+  const token = Math.floor(Math.random() * 20000000);
+  internalUsers.forEach((internalUser) => {
+    if (internalUser.username == username) {
+      internalUser.token = token;
+    }
+  });
   res.send({ token: internalUser.token });
 });
 
 app.post("/user/register", (req, res) => {
   const { username, password } = req.body;
 
+  const userAlreadyExists = internalUsers.find(
+    (user) => user?.username == username
+  );
+
+  if (userAlreadyExists) {
+    return res.status(400).send({ message: "User already registered " });
+  }
+
   if (!username || !password || username == "" || password == "")
     return res
       .status(500)
       .send({ message: "You should send a username and a password" });
 
-  internalUser.username = username;
-  internalUser.password = password;
+  const internalUser = {
+    username: username,
+    password: password,
+    token: null,
+  };
+
+  internalUsers.push(internalUser);
 
   return res.send({ message: "user created successfully" });
 });
 
 app.get("/albums", (req, res) => {
   let [_, token] = req.headers.authorization.split(" ");
+  const internalUser = internalUsers.find((user) => user.token == token);
   if (
     token == null ||
-    internalUser.token == null ||
+    internalUser?.token == null ||
     !(String(token) == String(internalUser.token))
   )
     return res.status(401).send({ message: "User not authorized" });
