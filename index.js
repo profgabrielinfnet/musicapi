@@ -71,7 +71,7 @@ app.post("/user/register", (req, res) => {
   return res.send({ message: "user created successfully" });
 });
 
-app.get("/albums", (req, res) => {
+app.use((req, res, next) => {
   let [_, token] = req.headers.authorization.split(" ");
   const internalUser = internalUsers.find((user) => user.token == token);
   if (
@@ -80,6 +80,10 @@ app.get("/albums", (req, res) => {
     !(String(token) == String(internalUser.token))
   )
     return res.status(401).send({ message: "User not authorized" });
+  next();
+});
+
+app.get("/albums", (_, res) => {
   res.send([
     {
       id: "1",
@@ -100,6 +104,31 @@ app.get("/albums", (req, res) => {
       id: "4",
       album: "Guns",
       img: "https://www12.senado.leg.br/radio/1/capitulo-rock/2020/01/31/guns-n2019-roses/guns_n_roses.jpg/@@images/24c8f793-0823-4756-b0e7-3c1f1b71fb1e.jpeg",
+    },
+  ]);
+});
+
+app.get("/stories", (_, res) => {
+  res.send([
+    {
+      id: "1",
+      name: "Nathanzinho",
+      img: "https://uploads.metropoles.com/wp-content/uploads/2022/08/17164733/WhatsApp-Image-2022-08-17-at-16.36.56-835x1024.jpeg",
+    },
+    {
+      id: "2",
+      name: "Anderson Paak",
+      img: "https://monkeybuzz.com.br/wp-content/uploads/2019/06/hollie-fernando-1920x1280.jpg",
+    },
+    {
+      id: "3",
+      name: "Beyonce",
+      img: "https://i.em.com.br/I-gX53eZOL0FN60bnwMrmcgTRo4=/750x0/smart/imgsapp.em.com.br/app/noticia_127983242361/2023/08/09/1543194/beyonce_1_83139.jpg",
+    },
+    {
+      id: "4",
+      name: "Madonna",
+      img: "https://veja.abril.com.br/wp-content/uploads/2022/03/Madonna.jpg.jpg?quality=90&strip=info&w=680&h=453&crop=1",
     },
   ]);
 });
