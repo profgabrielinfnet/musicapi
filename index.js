@@ -71,8 +71,12 @@ app.post("/user/register", (req, res) => {
   return res.send({ message: "user created successfully" });
 });
 
-app.use((req, res, next) => {
-  let [_, token] = req.headers.authorization.split(" ");
+const checkAuthentication = (req, res, next) => {
+  const bearerToken = req.headers?.authorization;
+  if(!bearerToken) return res.status(401).send({ message: "User not authorized" });
+
+  const [_, token] = bearerToken.split(" ");
+
   const internalUser = internalUsers.find((user) => user.token == token);
   if (
     token == null ||
@@ -81,9 +85,9 @@ app.use((req, res, next) => {
   )
     return res.status(401).send({ message: "User not authorized" });
   next();
-});
+}
 
-app.get("/albums", (_, res) => {
+app.get("/albums",checkAuthentication, (_, res) => {
   res.send([
     {
       id: "1",
@@ -108,7 +112,7 @@ app.get("/albums", (_, res) => {
   ]);
 });
 
-app.get("/stories", (_, res) => {
+app.get("/stories", checkAuthentication, (_, res) => {
   res.send([
     {
       id: "1",
